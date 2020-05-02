@@ -1,51 +1,50 @@
 <template>
-  <el-row :span="24" :gutter="gutter">
+  <el-row :gutter="gutter" :span="24">
     <el-col
-      :md="4"
+      :md="6"
       :xs="12"
       :sm="8"
       v-for="(item, index) in cardData"
       :key="index"
     >
-      <div class="card" :title="item.content">
+      <div class="card">
         <div class="card-head">
-          <div class="card-head-icon">
+          <div class="card-head-icon-like">
             <i
-              :class="iconLove"
-              :style="{ color: item.color || 'red' }"
-              @click="iconLoveClick ? iconLoveClick(item, index) : ''"
+              :class="iconLike"
+              @click="likeClick ? likeClick(item, index) : ''"
             ></i>
             <span>{{ item.likeNum }}</span>
           </div>
-          <div class="card-head-icon">
-            <i :class="iconView" :style="{ color: item.color || 'red' }"></i>
+          <div class="card-head-icon-view">
+            <i :class="iconView"></i>
             <span>{{ item.viewNum }}</span>
           </div>
         </div>
-        <a
-          :href="item.href || 'javascript:void(0);'"
-          @click="gotoWebClick ? gotoWebClick(item, index) : ''"
-          :target="item.target"
-        >
+        <a :href="item.href" @click="gotoWeb ? gotoWeb(item, index) : ''">
           <div class="card-body">
             <img
               class="card-body-img"
-              :src="item.logoUrl"
+              :src="item.url"
               object-fit="fill"
               alt="图像获取失败！"
             />
-            <div class="card-body-info">
-              <span class="card-body-info-title">{{ item.title }}</span>
-              <span
-                class="card-body-info-tag"
-                v-for="(tagItem, tagIndex) in item.tag"
-                :key="tagIndex"
-                >{{ tagItem }}</span
-              >
-              <span class="card-body-info-arrow">
+            <div class="card-body-text">
+              <span class="card-body-text-title">{{ item.title }}</span>
+              <span class="card-body-text-tag">
+                <el-tag
+                  v-for="item in items"
+                  :key="item.label"
+                  :type="item.type"
+                  effect="plain"
+                  size="mini"
+                  >{{ item.label }}</el-tag
+                >
+              </span>
+              <span class="card-body-text-right">
                 <i class="el-icon-right"></i>
               </span>
-              <div class="card-body-info-content">{{ item.content }}</div>
+              <div class="card-body-text-detail">{{ item.detail }}</div>
             </div>
           </div>
         </a>
@@ -54,18 +53,9 @@
   </el-row>
 </template>
 
-<script>
-import create from "../../core/create";
-export default create({
+<script type="text/ecmascript-6">
+export default {
   name: "cardflag",
-  data() {
-    return {
-      iconLove: this.option.iconLove || "el-icon-star-off",
-      iconView: this.option.iconView || "el-icon-view",
-      iconLoveClick: this.option.iconLoveClick,
-      gotoWebClick: this.option.gotoWebClick
-    };
-  },
   props: {
     option: {
       type: Object,
@@ -74,18 +64,27 @@ export default create({
       }
     }
   },
-  computed: {
-    gutter() {
-      return this.option.gutter || 20;
-    },
-    cardData() {
-      return this.option.data || [];
-    }
-  }
-});
+  data() {
+    return {
+      iconLike: this.option.iconLike || "el-icon-star-off",
+      iconView: this.option.iconView || "el-icon-view",
+      gotoWeb: this.option.gotoWeb,
+      likeClick: this.option.likeClick,
+      gutter: this.option.gutter || "5",
+      cardData: this.option.data || [],
+      items:[
+        { type: 'info', label: 'CN' },
+        { type: 'info', label: '收费' },
+      ]
+    };
+  },
+  computed: {},
+  components: {},
+  methods: {}
+};
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 $time: 0.5s;
 @mixin text-display() {
   //超出内容隐藏
@@ -95,23 +94,22 @@ $time: 0.5s;
   //设置超出内容为省略号
   text-overflow: ellipsis;
 }
+a {
+  text-decoration: none;
+}
 .card {
   height: 100px;
-  border: 1px solid darkgray;
-  border-radius: 10px;
-  box-shadow: 0px 2px 8px #55504c;
-  background-color: #fff;
-  font-size: 10px;
-  //光标呈现为指示链接的指针
+  border: 1px solid rgb(236, 236, 236);
+  border-radius: 8px;
+  margin-bottom: 20px;
+  background: white;
   position: relative;
-  bottom: 0;
-  margin-bottom: 16px;
+  box-shadow: 6px 6px 6px rgb(216, 214, 214);
   cursor: pointer;
-  //过渡效果
   transition: bottom $time;
   &:hover {
-    bottom: -5px;
-    .card-body-info-arrow {
+    top: -5px;
+    .card-body-text-right {
       visibility: visible;
     }
     .card-body-img {
@@ -119,19 +117,25 @@ $time: 0.5s;
       height: 45px;
     }
   }
-  a {
-    text-decoration: none;
-  }
   &-head {
     display: flex;
     justify-content: space-between;
     padding: 10px 12px;
-    &-icon {
+    &-icon-like {
       display: flex;
-      align-items: center;
-      color: rgba(0, 0, 0, 0.45);
+      color: rgb(192, 188, 188);
       i {
-        font-size: 16px;
+        font-size: 15px;
+      }
+      span {
+        margin-left: 5px;
+      }
+    }
+    &-icon-view {
+      display: flex;
+      color: rgb(192, 188, 188);
+      i {
+        font-size: 15px;
       }
       span {
         margin-left: 5px;
@@ -140,37 +144,35 @@ $time: 0.5s;
   }
   &-body {
     display: flex;
-    padding: 5px 10px;
+    padding: 10px 10px;
     &-img {
-      $size: 40px;
-      width: $size;
-      height: $size;
-      border-radius: $size;
-      transition: width $time, height $time;
+      width: 40px;
+      height: 40px;
+      border-radius: 40px;
       flex-shrink: 0;
+      transition: width $time, height $time;
     }
-    &-info {
+    &-text {
+      color: rgb(187, 185, 185);
       margin-left: 10px;
-      color: rgba(0, 0, 0, 0.45);
-      @include text-display;
+      @include text-display();
       &-title {
-        color: rgba(0, 0, 0, 0.85);
+        color: rgb(24, 23, 21);
         font-size: 14px;
+        margin-right: 50px;
       }
       &-tag {
-        margin-left: 10px;
-        background-color: gainsboro;
-        border-radius: 3px;
+        margin-right: 40px;
       }
-      &-arrow {
+      &-right {
         position: absolute;
         right: 10px;
         visibility: hidden;
-        transition: visibility $time;
       }
-      &-content {
-        padding-top: 5px;
-        @include text-display;
+      &-detail {
+        padding-top: 10px;
+        font-size: 10px;
+        @include text-display();
       }
     }
   }

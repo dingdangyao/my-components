@@ -12,7 +12,6 @@
     "lib": "vue-cli-service build --target lib --name myvue --dest lib packages/index.js"
   },
   "dependencies": {
-    "core-js": "^3.6.4",
     "element-ui": "^2.13.1",
     "eslint": "^6.8.0",
     "jquery": "^3.5.0",
@@ -48,7 +47,8 @@
     "parserOptions": {
       "parser": "babel-eslint"
     },
-    "rules": {}
+    "rules": {
+    }
   },
   "browserslist": [
     "> 1%",

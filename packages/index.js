@@ -1,20 +1,24 @@
 import CardFlag from "./components/CardFlag";
+import CardImg from "./components/CardImg";
 import login from "./components/login";
 import record from "./components/record";
 import search from "./components/search";
 import scrollLoader from "./components/scrollLoader";
 import backTop from "./components/backTop";
-import SvgIcon from "./components/SvgIcon";
+import IconSvg from "./components/IconSvg";
 import $myVueLog from "./plugin/logs/";
+import Magnifier from "./components/Magnifier";
 // 存储组件列表
 const components = [
   CardFlag,
+  CardImg,
   login,
   record,
   search,
   scrollLoader,
   backTop,
-  SvgIcon
+  IconSvg,
+  Magnifier
 ];
 let prototypes = {
   $myVueLog
@@ -41,9 +45,11 @@ export default {
   // 以下是具体的组件列表
   login,
   CardFlag,
+  CardImg,
   record,
   search,
   scrollLoader,
   backTop,
-  SvgIcon
+  IconSvg,
+  Magnifier
 };

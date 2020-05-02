@@ -1,8 +1,8 @@
 import Vue from "vue";
-import SvgIcon from "../../packages/components/SvgIcon"; // svg组件
+import IconSvg from "../../packages/components/IconSvg"; // svg组件
 
 // register globally
-Vue.component("svg-icon", SvgIcon);
+Vue.component("svg-icon", IconSvg);
 
 const requireAll = requireContext => requireContext.keys().map(requireContext);
 const req = require.context("./svg", false, /\.svg$/);

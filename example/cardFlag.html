@@ -20,55 +20,52 @@
 	</head>
 
 	<body>
-		<noscript>
-			<strong>We're sorry but
-				<%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled.
-				Please enable it to continue.</strong>
-		</noscript>
-
 		<div id="app">
 			<cardflag :option="option"></cardflag>
-			<backTop></backTop>
 		</div>
 	</body>
 
 	<script>
 		//开始生成测试数据
 		const demoData = [];
-		const base = parseInt((Math.random() * 60), 10) + 10;
-		const demoDataNum = 60;
+        const base = parseInt(Math.random() * 60, 10) + 10;
+		const demoDataNum = 30;
 		for (let i = 0; i < demoDataNum; i++) {
-			let likeNum = Mock.mock('@integer(1, 100)');
-			let viewNum = Mock.mock('@integer(1000, 2000)');
-			demoData.push({
-				href: "http://www.163.com",
-				target: '_blank',
-				logoUrl: `https://picsum.photos/id/${base + i}/300/200`,
-				title: Mock.mock('@ctitle(3, 5)'),
-				content: Mock.mock('@cparagraph'),
-				tag: ["CN", "收费"],
-				likeNum: `${likeNum}`,
-				viewNum: `${viewNum}`
-			})
-		}
-		new Vue({
-			el: '#app',
-			data() {
-			  return {
-			    option: {
-			    	cardSpan: 4,
-			      	gutter: 6,
-				  	gotoWebClick: function(item, index) {
-			        	console.log(index);
-			        	item.viewNum++;
-			      	},
-				  	iconLoveClick: function(item, index) {
-			        	console.log(index);
-			        	item.likeNum++;
-			      	},
-			      	data: demoData
-			    }
-			  }
+  			let likeNum = Mock.mock("@integer(1, 100)");
+  			let viewNum = Mock.mock("@integer(1000, 2000)");
+ 		 demoData.push({
+    		href: "http://www.163.com",
+    		url: `https://picsum.photos/id/${base + i}/300/200`,
+    		title: Mock.mock("@ctitle(2, 5)"),
+    		detail: Mock.mock("@cparagraph"),
+    		likeNum: `${likeNum}`,
+    		viewNum: `${viewNum}`
+  });
+}
+	new Vue({
+		el: '#app',
+		data() {
+		return {
+			option: {
+        likeClick: function(item, index) {
+          console.log("index:" + index);
+          console.log("item.likeNum:" + item.likeNum);
+          let i = parseInt(item.likeNum);
+          if (!isNaN(i)) {
+            i = i + 1;
+            item.likeNum = i;
+          }
+          console.log("点击收藏后:" + i);
+          this.$message.success("您点击了收藏:" + index);
+        },
+        gotoWeb: function(item, index) {
+          console.log(index);
+          item.viewNum++;
+        },
+        data: demoData,
+        gutter: 5
+	}
+			};
 			}
 		})
 	</script>
