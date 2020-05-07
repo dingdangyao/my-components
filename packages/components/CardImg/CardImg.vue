@@ -14,6 +14,8 @@
               <img
                 :src="item.url"
                 :key="index"
+                width="100%"
+                height="200px"
                 alt="图像获取失败"
                 object-fit="fill"
                 @dblclick="imgClick(item, index)"
@@ -24,24 +26,24 @@
             <div class="card-body-author">
               <el-avatar :size="20" :src="item.authorUrl"></el-avatar>
             </div>
-            <div class="card-body-icon">
-              <div class="card-body-icon-like" @click="likeClick(item, index)">
-                <i :class="iconLike"></i>
-                <span>{{ item.likeNum }}</span>
-              </div>
-              <div
-                class="card-body-icon-download"
-                @click="downloadClick(item, index)"
-              >
-                <i :class="iconDownload"></i>
-                <span>{{ item.downloadNum }}</span>
-              </div>
-              <div
-                class="card-body-icon-search"
-                @click="searchClick(item, index)"
-              >
-                <i :class="iconSearch"></i>
-              </div>
+            <div v-for="n in 3" :key="n"></div>
+            <div class="card-body-icon"></div>
+            <div class="card-body-icon-like" @click="likeClick(item, index)">
+              <i :class="iconLike"></i>
+              <span>{{ item.likeNum }}</span>
+            </div>
+            <div
+              class="card-body-icon-download"
+              @click="downloadClick(item, index)"
+            >
+              <i :class="iconDownload"></i>
+              <span>{{ item.downloadNum }}</span>
+            </div>
+            <div
+              class="card-body-icon-search"
+              @click="searchClick(item, index)"
+            >
+              <i :class="iconSearch"></i>
             </div>
           </div>
           <el-image-viewer
@@ -62,7 +64,9 @@ export default {
   props: {
     option: {
       type: Object,
-      default: () => {}
+      default: () => {
+        return {};
+      }
     }
   },
   data() {
@@ -74,8 +78,8 @@ export default {
       likeClick: this.option.likeClick,
       downloadClick: this.option.downloadClick,
       searchClick: this.option.searchClick,
-	  showViewer: false,
-	  preview: this.option.preview || false,
+      showViewer: false,
+      preview: this.option.preview || false,
       srcUrl: ""
     };
   },
@@ -102,17 +106,21 @@ export default {
 
 <style lang="scss" scoped>
 .card {
-  background-color: white;
   &-content {
-    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);
     margin-bottom: 10px;
-    width: 300px;
-    height: 200px;
+    background-color: #fff;
+    box-sizing: border-box;
     &:hover {
+      box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);
       .card-body {
         display: flex;
         opacity: 0.7; //设置不透明级别
       }
+    }
+  }
+  &-head {
+    &-img {
+      height: 200px;
     }
   }
   &-body {
@@ -126,11 +134,14 @@ export default {
     &-author {
       padding-top: 5px;
     }
-    &-icon {
+    &-icon-like,
+    &-icon-download,
+    &-icon-search {
       display: flex;
       align-items: center;
       font-size: 10px;
       i {
+        padding-top: -5px;
         font-size: 18px;
       }
       span {

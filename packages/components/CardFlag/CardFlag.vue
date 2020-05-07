@@ -123,8 +123,10 @@ a {
     padding: 10px 12px;
     &-icon-like {
       display: flex;
+      align-items: center;
       color: rgb(192, 188, 188);
       i {
+        color: rgb(235, 52, 122);
         font-size: 15px;
       }
       span {
@@ -133,8 +135,10 @@ a {
     }
     &-icon-view {
       display: flex;
+      align-items: center;
       color: rgb(192, 188, 188);
       i {
+        color: rgb(235, 52, 122);
         font-size: 15px;
       }
       span {
@@ -144,7 +148,7 @@ a {
   }
   &-body {
     display: flex;
-    padding: 10px 10px;
+    padding-left: 5px;
     &-img {
       width: 40px;
       height: 40px;
